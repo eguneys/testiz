@@ -18,6 +18,18 @@ function Testutils(opts) {
     else return a === b;
   }, '!=='));
 
+  const throws = runtest(matcher((emsg, f) => {
+    var caught;
+    try {
+      f();
+    } catch(err) {
+      caught = err;
+    }
+    if (!caught) return false;
+    if (!caught.message.match(emsg)) return false;
+    return true;
+  }, 'didnt throw'));
+
   function matcher(f, s) {
     return { matcher: f, onfail: s };
   }
@@ -47,6 +59,7 @@ function Testutils(opts) {
     is,
     isabove,
     deep_is,
+    throws,
     matcher,
     runtest,
     log
