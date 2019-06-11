@@ -18,17 +18,17 @@ function Testutils(opts) {
     else return a === b;
   }, '!=='));
 
-  const throws = runtest(matcher((emsg, f) => {
+  const throws = runtestPlus(matcher((emsg, f) => {
     var caught;
     try {
       f();
     } catch(err) {
       caught = err;
     }
-    if (!caught) return false;
-    if (!caught.message.match(emsg)) return false;
-    return true;
-  }, 'didnt throw'));
+    if (!caught) return { err: 'didnt throw' };
+    if (!caught.message.match(emsg)) return { err: 'throwed ' + caught.message };
+    return {};
+  }, ''));
 
   function matcher(f, s) {
     return { matcher: f, onfail: s };
@@ -43,6 +43,22 @@ function Testutils(opts) {
       } else {
         passfail = failMessage;
         res += JSON.stringify(a) + ` ${onfail} ` + JSON.stringify(b);
+      }
+      res = msg + ' ' + res;
+      console.log(passfail(res));
+    };
+  }
+
+  function runtestPlus({ matcher, onfail }) {
+    return function(msg, ...args) {
+      var passfail = '';
+      var res = '';
+      var { err } = matcher(...args);
+      if (!err) {
+        passfail = passMessage;
+      } else {
+        passfail = failMessage;
+        res += onfail + ' ' + err;
       }
       res = msg + ' ' + res;
       console.log(passfail(res));
