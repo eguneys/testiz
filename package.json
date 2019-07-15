@@ -1,6 +1,6 @@
 {
   "name": "testiz",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "simple testing library with no excessive syntax",
   "main": "./src/testutils.js",
   "repository": "https://github.com/eguneys/testiz",

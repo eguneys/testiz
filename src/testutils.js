@@ -70,7 +70,13 @@ function Testutils(opts) {
   function withLogger(logger) {
     return function(msg) {
       const message = logger(msg);
-      console.log(message[0], message[1]);    
+      if (message[2]) {
+        console.log(message[0], message[1], message[2]);
+      } else if (message[1]) {
+        console.log(message[0], message[1]);
+      } else {
+        console.log(message[0]);
+      }
     };
   }
 
@@ -88,9 +94,9 @@ function Testutils(opts) {
 };
 
 const browserOptions = {
-  logMessage: (msg) => ['%c ## ' + msg, 'background: yellow; '],
-  failMessage: (msg) => ['%cfail ' + msg, 'background: red; '],
-  passMessage: (msg) => ['%cpass ' + msg, 'background: green;']
+  logMessage: (msg) => ['%c ## ', 'background: yellow; ', msg],
+  failMessage: (msg) => ['%cfail ', 'background: red; ', msg],
+  passMessage: (msg) => ['%cpass ', 'background: green;', msg]
 };
 
 const nodeOptions = {
