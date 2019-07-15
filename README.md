@@ -8,10 +8,14 @@ Simple testing library with no excessive syntax.
     
 ### Usage
 
-    const testutils = require('./testutils');
+    // node
+    const { log, ok, is, not } = require('testiz');
 
-    const { log, ok, is, not } = testutils;
-
+    // browser
+    import { testBrowser } from 'testiz';
+    const { log, ok, is, not } = testBrowser;
+    
+    
     function tests() {
       log('passing tests');
       ok('true is ok', true);

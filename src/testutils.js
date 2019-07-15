@@ -45,7 +45,7 @@ function Testutils(opts) {
         res += JSON.stringify(a) + ` ${onfail} ` + JSON.stringify(b);
       }
       res = msg + ' ' + res;
-      console.log(passfail(res));
+      withLogger(passfail)(res);
     };
   }
 
@@ -61,12 +61,17 @@ function Testutils(opts) {
         res += onfail + ' ' + err;
       }
       res = msg + ' ' + res;
-      console.log(passfail(res));
+      withLogger(passfail)(res);
     };
   }
 
-  function log(msg) {
-    console.log(logMessage(msg));
+  const log = withLogger(logMessage);
+
+  function withLogger(logger) {
+    return function(msg) {
+      const message = logger(msg);
+      console.log(message[0], message[1]);    
+    };
   }
 
   return {
@@ -83,15 +88,15 @@ function Testutils(opts) {
 };
 
 const browserOptions = {
-  logMessage: (msg) => '%c ## background: yellow; ' + msg,
-  failMessage: (msg) => '%cfail background: red; ' + msg,
-  passMessage: (msg) => '%cpass background: green; ' + msg
+  logMessage: (msg) => ['%c ## ' + msg, 'background: yellow; '],
+  failMessage: (msg) => ['%cfail ' + msg, 'background: red; '],
+  passMessage: (msg) => ['%cpass ' + msg, 'background: green;']
 };
 
 const nodeOptions = {
-  logMessage: (msg) => chalk.yellow(' ## ') + ' ' + msg,
-  failMessage: (msg) => chalk.red('fail ') + ' ' + msg,
-  passMessage: (msg) => chalk.green('pass ') + ' ' + msg
+  logMessage: (msg) => [chalk.yellow(' ## ') + ' ' + msg, ''],
+  failMessage: (msg) => [chalk.red('fail ') + ' ' + msg, ''],
+  passMessage: (msg) => [chalk.green('pass ') + ' ' + msg, '']
 };
 
 module.exports = Testutils(nodeOptions);
