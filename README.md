@@ -9,11 +9,10 @@ Simple testing library with no excessive syntax.
 ### Usage
 
     // node
-    const { log, ok, is, not } = require('testiz');
+    // const { log, ok, is, not } = require('testiz');
 
     // browser
-    import { testBrowser } from 'testiz';
-    const { log, ok, is, not } = testBrowser;
+    import { log, ok, is, not } from 'testiz/browser';
     
     
     function tests() {

@@ -2,14 +2,20 @@
   "name": "testiz",
   "version": "1.0.5",
   "description": "simple testing library with no excessive syntax",
-  "main": "./src/testutils.js",
+  "main": "testutils.js",
   "repository": "https://github.com/eguneys/testiz",
   "author": "eguneys",
   "license": "MIT",
   "scripts": {
-    "test": "node ./src/tests.js"
+    "test": "node ./src/tests.js",
+    "compile": "babel src --out-dir ./",
+    "prepublish": "yarn run compile"
   },
   "dependencies": {
     "chalk": "^2.4.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5"
   }
 }
